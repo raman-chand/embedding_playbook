@@ -1,8 +1,5 @@
 import { users } from './users';
-import { Superstore } from "components/Themes/Superstore";
-import { Ebikes } from "components/Themes/Ebikes";
-import { NTO } from "components/Themes/NTO";
-import { Pacifica } from "components/Themes/Pacifica";
+import { Lightspeed } from "components/Themes/Lightspeed";
 
 
 export const settings = {
@@ -10,9 +7,9 @@ export const settings = {
   custom_metrics: true,
   themes: [
     {
-      label: "CPQ Analytics",
-      name: "pacifica",
-      component: Pacifica,
+      label: "Cockpit",
+      name: "Lightspeed",
+      component: Lightspeed,
       type: "default",
       logo: "pacifica/pacifica_icon.png",
       styles: "",
