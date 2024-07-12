@@ -1,6 +1,6 @@
 {
   "index": {
-    "title": "Embed Tableau",
+    "title": "Lightspeed Data Portal",
     "type": "page",
     "display": "hidden",
     "theme": {
@@ -18,12 +18,12 @@
       "timestamp": false
     }
   },
-  "consulting": {
-    "title": "Strategic Consulting",
+  "product": {
+    "title": "Product Deep Dive",
     "type": "page"
   },
-  "full": {
-    "title": "Pay Forecaster",
+  "geo": {
+    "title": "Geographical Analysis",
     "type": "page",
     "theme": {
       "layout": "full",

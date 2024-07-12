@@ -1,15 +1,15 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "components/ui";
 
 import { Optimization } from './Optimization';
-import { Weekly } from './Weekly';
+import { Dataoverview } from './DataOverview';
 
 
 export const Lightspeed = () => {
   return (
-    <Tabs defaultValue="weekly" className="space-y-3">
+    <Tabs defaultValue="dataoverview" className="space-y-3">
       <TabsList>
-        <TabsTrigger value="weekly">
-         Weekly Highlights
+        <TabsTrigger value="dataoverview">
+         Data Overview
         </TabsTrigger>
         <TabsTrigger value="optimization">
           Optimization
@@ -17,7 +17,7 @@ export const Lightspeed = () => {
       </TabsList>
       <section className="min-h-[892px]">
         <Optimization />
-        <Weekly />
+        <Dataoverview />
       </section>
     </Tabs>
   )

@@ -21,7 +21,7 @@ import {
 
 export function UserMenu(props) {
   const { src } = props;
-  const avatar = src ? src : 'img/users/mackenzie_day.png';
+  const avatar = src ? src : 'img/users/richard_bennet.png';
   const [user, setUser] = useState(undefined);
   // only 2 states: loading and authenticated https://next-auth.js.org/getting-started/client#require-session
   const { status, data } = useSession({ required: false });
@@ -97,9 +97,9 @@ const Label = (props) => {
   return (
     <DropdownMenuLabel className="font-normal">
       <div className="flex flex-col space-y-1">
-        <p className="text-sm font-medium leading-none">Superstore Analytics</p>
+        <p className="text-sm font-medium leading-none">Lightspeed</p>
         <p className="text-xs leading-none text-muted-foreground">
-          mday@mail.com
+          kmazille@salesforce.com
         </p>
       </div>
     </DropdownMenuLabel>

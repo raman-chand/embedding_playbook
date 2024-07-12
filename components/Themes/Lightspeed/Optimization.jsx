@@ -14,14 +14,14 @@ export const Optimization = () => {
           Zilliant's new CPQ pricing optimization dashboard streamlines pricing by tracking
           real-time changes in pricing, discounts, and product performance. Its intuitive interface
           and advanced analytics enable data-driven adjustments to optimize revenue and profitability,
-          enhancing business efficiency and competitive advantage.
+          enhancing business efficiency and competitive advantage. test
           </CardDescription>
         </CardHeader>
         <CardContent className="flex justify-center items-center">
           <TableauEmbed
-            src='https://prod-useast-b.online.tableau.com/t/embeddingplaybook/views/Zilliant/Hero'
-            width={900}
-            height={1100}
+            src='https://dub01.online.tableau.com/t/kevinmazille/views/LightspeedEmbeddedv1/RevOps-EMB-Cockpit-BlockSales'
+            width={300}
+            height={500}
             hideTabs={true}
             device='default'
             toolbar='hidden'

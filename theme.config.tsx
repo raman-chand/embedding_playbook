@@ -3,27 +3,27 @@ import { useConfig, DocsThemeConfig } from 'nextra-theme-docs';
 import { Logo, Head } from './components';
 
 const vercel = 'https://embedding-playbook.vercel.app';
-const description = "The Power of Pricing with Data";
+const description = "The Lightspeed Data Portal";
 
 const config: DocsThemeConfig = {
   primaryHue: 330,
   primarySaturation: 75,
   logo:
   <Logo
-    src='/img/themes/pacifica/pacifica_main.png'
+    src='/img/themes/lightspeed/lightspeed-logo-png-transparent.png'
     width='100'
   />,
   footer: {
     text:
     <>
     <Logo
-      src='/img/themes/pacifica/pacifica_main.png'
+      src='/img/themes/lightspeed/lightspeed-logo-png-transparent.png'
       width='100'
     />
     </>,
   },
   search: {
-    placeholder: "Search Pacifica"
+    placeholder: "Search Lightspeed"
   },
   toc: {
     backToTop: true
@@ -33,11 +33,11 @@ const config: DocsThemeConfig = {
     // changes title on home '/' route
     if (route !== '/') {
       return {
-        titleTemplate: 'Pacifica Consulting'
+        titleTemplate: 'Lightspeed Consulting'
       };
     } else {
       return {
-        titleTemplate: 'Pacifica Consulting | Home'
+        titleTemplate: 'Lightspeed Consulting | Home'
       };
     }
   },

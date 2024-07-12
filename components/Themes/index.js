@@ -1,6 +1,4 @@
 export { Themes } from './Themes';
 export { ThemeSelector } from './ThemeSelector';
 export { Superstore } from './Superstore';
-export { NTO } from './NTO';
-export { Ebikes } from './Ebikes';
-export { Zilliant } from './Zilliant';
+export { Lightspeed } from './Lightspeed';

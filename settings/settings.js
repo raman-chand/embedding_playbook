@@ -11,7 +11,7 @@ export const settings = {
       name: "Lightspeed",
       component: Lightspeed,
       type: "default",
-      logo: "pacifica/pacifica_icon.png",
+      logo: "lightspeed/Lightspeedlogo.png",
       styles: "",
       project: {
         name: "superstore_embedded",
