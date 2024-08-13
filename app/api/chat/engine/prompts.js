@@ -18,21 +18,26 @@ Query: ${query}
 Answer:`;
 };
 
-export const headlessBIPrompt = ({ analysis, query }) => {
+export const headlessBIPrompt = ({ analysis, results, query }) => {
   return `Analysis below:
 ---------------------
 ${analysis}
 ---------------------
 Instructions:
-The above analysis was generated from analyzing data from Tableau data sources via HeadlessBI.
+The above analysis was generated from Tableau data sources via HeadlessBI or requesting data via REST API.
 
 If the analysis is empty or it concludes that the query is not a valid request, do nothing and do not respond to the user.
 
 If the analysis includes text, you are to summarize the narrative or behavioral text so that it is only a few sentences long.
 
+Results data below:
+---------------------
+${results}
+---------------------
+Instructions:
 Return the data or table with the exact same values but make sure to always format it as a markdown table.
 
-Given the analysis and not prior knowledge, answer the query.
+Given the analysis and results but not prior knowledge, answer the query.
 Query: ${query}
 Answer:`;
 };
