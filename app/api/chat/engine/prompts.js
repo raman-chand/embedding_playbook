@@ -1,5 +1,6 @@
 export const newContextSystemPrompt = ({ context, query }) => {
-  return `Context information is below.
+  return `EmbedTableau.com Agent
+Context:
 ---------------------
 "context": ${context}
 ---------------------
@@ -28,29 +29,36 @@ Query: ${query}
 Answer:`;
 };
 
-export const headlessBIPrompt = ({ analysis, results, query }) => {
+export const headlessBIPrompt = ({ context, analysis, results, query }) => {
   return `Headless BI Service
-Analysis below:
+Context:
+---------------------
+"context": ${context}
+---------------------
+If the "context" answers the "Query", use the "context" to generate an answer.
+If the "context" is empty or not relevant, use "analysis" and "results" to generate an answer.
+
+Analysis:
 ---------------------
 "analysis": ${analysis}
 ---------------------
 Instructions:
 The above analysis was generated from Tableau data sources via HeadlessBI or requesting data via REST API.
-
 If the analysis is empty or it concludes that the query is not a valid request, do nothing and do not respond to the user.
-
 If the analysis includes text, you are to summarize the narrative or behavioral text so that it is only a few sentences long.
 
-Results data below:
+Results:
 ---------------------
 "results": ${results}
 ---------------------
 Instructions:
 Return the data or table with the exact same values but make sure to always format it as a markdown table.
 
-If "context" answers the question, use "context" to generate an answer else use "analysis" and "results".
+Task:
+---------------------
+If "context" answers the "Query", use "context" to generate an answer else use "analysis" and "results".
 
 Given the analysis and results but not prior knowledge, answer the query.
-Query: ${query}
-Answer:`;
+"Query": ${query}
+"Answer":`;
 };
