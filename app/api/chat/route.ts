@@ -13,24 +13,61 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 // helper handles formatting for text and optional image URL
+// const convertMessageContent = (
+//   textMessage: string,
+//   imageUrl: string | undefined,
+// ): MessageContent => {
+//   if (!imageUrl) return textMessage;
+//   return [
+//     {
+//       type: "text",
+//       text: textMessage,
+//     },
+//     {
+//       type: "image_url",
+//       image_url: {
+//         url: imageUrl,
+//       },
+//     },
+//   ];
+// };
+
 const convertMessageContent = (
   textMessage: string,
-  imageUrl: string | undefined,
+  imageUrl: string | undefined
 ): MessageContent => {
-  if (!imageUrl) return textMessage;
-  return [
+  const messageContent: MessageContent = [
     {
       type: "text",
       text: textMessage,
     },
-    {
+  ];
+
+  if (imageUrl) {
+    messageContent.push({
       type: "image_url",
       image_url: {
         url: imageUrl,
       },
-    },
-  ];
+    });
+  }
+
+  return messageContent;
 };
+
+const convertHeadlessBI = (headlessbi: string | undefined): MessageContent => {
+  const messageContent: MessageContent = [];
+
+  if (headlessbi) {
+    messageContent.push({
+      type: "text",
+      text: headlessbi,
+    });
+  }
+
+  return messageContent;
+};
+
 
 export async function POST(req: NextRequest) {
   // session token specific to each user
@@ -56,9 +93,23 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      const headlessbi = await query_vds({ message: userMessage.content });
+      const vds_response = await query_vds({ message: userMessage.content });
 
-      console.log('****** HEADLESS BI *******', headlessbi);
+      console.log('***** VDS RESPONSE *****', vds_response);
+
+      const headlessbi = headlessBIPrompt({
+        analysis: vds_response.output?.analysis?.analyst_behavior,
+        results: vds_response.output?.analysis?.analyst_result,
+        query: userMessage.content
+      });
+
+      const headlessbiMessage: ChatMessage = {
+        role: 'assistant',
+        content: headlessbi
+      };
+
+
+      console.log('****** HEADLESS BI *******', headlessbiMessage);
 
       const llm = new OpenAI({
         model: (process.env.MODEL as any) ?? "gpt-3.5-turbo",
@@ -78,13 +129,19 @@ export async function POST(req: NextRequest) {
       // Convert message content from Vercel/AI format to LlamaIndex/OpenAI format
       const userMessageContent = convertMessageContent(
         userMessage.content,
-        data?.imageUrl,
+        data?.imageUrl
       );
+
+      // Update the chat history
+      const updatedChatHistory: ChatMessage[] = [
+        ...messages, // Spread existing messages
+        headlessbiMessage,  // Add the new message
+      ];
 
       // Calling LlamaIndex's ChatEngine to get a streamed response
       const response = await chatEngine.chat({
         message: userMessageContent,
-        chatHistory: messages,
+        chatHistory: updatedChatHistory,
         stream: true,
       });
 
@@ -109,3 +166,90 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+// export async function POST(req: NextRequest) {
+//   // session token specific to each user
+//   const token = await getToken({ req });
+
+//   // Check if req is defined
+//   if (!req) {
+//     return NextResponse.json({ error: '400: Bad Request' }, { status: 400 });
+//   }
+//   try {
+//     // Check for session token & OpenAI key
+//     if (token?.tableau) {
+//       const body = await req.json();
+//       const { messages, data }: { messages: ChatMessage[]; data: any } = body;
+//       const userMessage = messages.pop();
+//       if (!messages || !userMessage || userMessage.role !== "user") {
+//         return NextResponse.json(
+//           {
+//             error:
+//               "messages are required in the request body and the last message must be from the user",
+//           },
+//           { status: 400 },
+//         );
+//       }
+
+//       const headlessbi = await query_vds({ message: userMessage.content });
+
+//       console.log('****** HEADLESS BI *******', headlessbi);
+
+//       const llm = new OpenAI({
+//         model: (process.env.MODEL as any) ?? "gpt-3.5-turbo",
+//         maxTokens: 512,
+//       });
+
+//       const chatEngine = await createChatEngine(llm);
+
+//       // Update the chat history to include the headlessbi response
+//       const chatHistory = [
+//         ...messages,
+//         {
+//           role: "assistant",
+//           content: headlessbi,
+//         },
+//       ];
+
+//       // Convert message content from Vercel/AI format to LlamaIndex/OpenAI format
+//       const userMessageContent = convertMessageContent(
+//         userMessage.content,
+//         data?.imageUrl,
+//         headlessbi
+//       );
+
+//       // Calling LlamaIndex's ChatEngine to get a streamed response
+//       const response = await chatEngine.chat({
+//         message: userMessageContent,
+//         chatHistory,
+//         stream: true,
+//       });
+
+// //       // Calling LlamaIndex's ChatEngine to get a streamed response
+// //       const response = await chatEngine.chat({
+// //         message: userMessageContent,
+// //         chatHistory: messages,
+// //         stream: true,
+// //       });
+
+//       // Transform LlamaIndex stream to Vercel/AI format
+//       const { stream, data: streamData } = LlamaIndexStream(response, {
+//         parserOptions: {
+//           image_url: data?.imageUrl,
+//         },
+//       });
+
+//       // Return a StreamingTextResponse, which can be consumed by the Vercel/AI client
+//       return new StreamingTextResponse(stream, {}, streamData);
+//     } else {
+//       // unauthorized on account of lack of session token (prevents scripted attacks)
+//       return NextResponse.json({ error: '401: Unauthorized Session Token' }, { status: 401 });
+//     }
+//   } catch (error) {
+//     console.error("[LlamaIndex]", error);
+//     return NextResponse.json(
+//       { error: (error as Error).message },
+//       { status: 500 },
+//     );
+//   }
+// }
