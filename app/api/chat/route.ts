@@ -5,7 +5,7 @@ import { getToken } from 'next-auth/jwt';
 
 import { createChatEngine } from './engine';
 import { LlamaIndexStream } from './llamaindex-stream';
-import { newContextSystemPrompt } from './engine';
+import { query_vds, newContextSystemPrompt, headlessBIPrompt } from './engine';
 
 // vercel AI SDK sets the runtime to edge but llamaindex requires nodejs
 // https://ts.llamaindex.ai/getting_started/environments#nextjs-app-router
@@ -55,6 +55,10 @@ export async function POST(req: NextRequest) {
           { status: 400 },
         );
       }
+
+      const headlessbi = await query_vds({ message: userMessage.content });
+
+      console.log('****** HEADLESS BI *******', headlessbi);
 
       const llm = new OpenAI({
         model: (process.env.MODEL as any) ?? "gpt-3.5-turbo",
