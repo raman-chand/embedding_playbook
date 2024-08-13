@@ -34,4 +34,5 @@ export async function createChatEngine(llm: LLM) {
   });
 }
 
-export { newContextSystemPrompt } from './prompts';
+export { newContextSystemPrompt, headlessBIPrompt } from './prompts';
+export { query_vds } from './headlessbi';
