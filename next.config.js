@@ -32,6 +32,14 @@ const withNextra = require('nextra')({
 });
 
 module.exports = withNextra({
+  async rewrites() {
+    return [
+      {
+        source: '/:host(online\\.tableau\\.com)/t/:path*',
+        destination: '/api/proxy/t/:path*',
+      },
+    ];
+  },
   images: {
     unoptimized: !staticOptimized,
     remotePatterns: [
