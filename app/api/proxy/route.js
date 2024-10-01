@@ -1,11 +1,6 @@
 import httpProxyMiddleware from 'next-http-proxy-middleware';
 
-export const config = {
-  runtime: 'nodejs',
-  api: {
-    externalResolver: true,
-  },
-};
+export const runtime = "nodejs";
 
 export default async function handler(req, res) {
   console.log('Proxy request received:', req.method, req.url);
