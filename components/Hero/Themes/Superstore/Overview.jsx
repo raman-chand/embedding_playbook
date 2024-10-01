@@ -16,7 +16,7 @@ export const Overview = () => {
           </CardHeader>
           <CardContent className="flex items-center justify-center">
             <TableauEmbed
-              src='http://localhost:3000/api/proxy/t/embeddingplaybook/views/superstore/overview_800x800'
+              src='https://prod-useast-b.online.tableau.com/t/embeddingplaybook/views/superstore/overview_800x800'
               hideTabs={true}
               toolbar='hidden'
               className='
